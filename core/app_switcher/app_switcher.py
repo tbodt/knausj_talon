@@ -446,7 +446,6 @@ def ui_event(event, arg):
     if event in ("app_launch", "app_close"):
         update_running_list()
 
-
 # Talon starts faster if you don't use the `talon.ui` module during launch
 
 

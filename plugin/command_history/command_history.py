@@ -63,6 +63,13 @@ class Actions:
         """Disables the history"""
         gui.hide()
 
+    def history_toggle():
+        """Toggles the history"""
+        if gui._showing:
+            gui.hide()
+        else:
+            gui.show()
+
     def history_clear():
         """Clear the history"""
         global history
