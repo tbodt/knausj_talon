@@ -10,6 +10,7 @@ app: Safari
 app: Code
 app: /terminal/
 app: /jetbrains/
+app: iTerm2
 -
 (open | new) tab: app.tab_open()
 last tab: app.tab_previous()

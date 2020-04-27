@@ -11,9 +11,9 @@ action(app.tab_open):
 action(app.tab_close):
   key(cmd-w)
 action(app.tab_next):
-  key(ctrl-tab)
+  key(cmd-shift-])
 action(app.tab_previous):
-  key(ctrl-shift-tab)
+  key(cmd-shift-[)
 action(app.window_open):
   key(cmd-n)
 kill all:
