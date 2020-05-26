@@ -154,7 +154,7 @@ class Actions:
 def formatters(m):
     return m.formatters_list
  
-@ctx.capture(rule='<self.formatters> <phrase>')
+@ctx.capture(rule='<self.formatters> <user.phrase>')
 def format_text(m):
     return FormatText(m.phrase, m.formatters)
 
