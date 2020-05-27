@@ -6,5 +6,5 @@ phrase <user.phrase> over: dictate.lower(phrase)
 (say | speak) <user.phrase>$: dictate.lower(phrase)
 (say | speak) <user.phrase> over: dictate.lower(phrase)
 word <user.word>: dictate.lower(word)
-
-
+list formatters: user.list_formatters()
+hide formatters: user.hide_formatters()
