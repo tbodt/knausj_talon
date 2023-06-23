@@ -107,7 +107,7 @@ def prose_time(m) -> str:
     return str(m)
 
 
-@mod.capture(rule="({user.vocabulary} | <user.abbreviation> | <word>)")
+@mod.capture(rule="({user.vocabulary} | <user.abbreviation> | <user.talon_word>)")
 def word(m) -> str:
     """A single word, including user-defined vocabulary."""
     if hasattr(m, "vocabulary"):
@@ -116,11 +116,11 @@ def word(m) -> str:
         return m.abbreviation
     else:
         return " ".join(
-            actions.dictate.replace_words(actions.dictate.parse_words(m.word))
+            actions.dictate.replace_words(actions.dictate.parse_words(m.talon_word))
         )
 
 
-@mod.capture(rule="({user.vocabulary} | <user.prose_contact> | <phrase>)+")
+@mod.capture(rule="({user.vocabulary} | <user.prose_contact> | <user.talon_phrase>)+")
 def text(m) -> str:
     """A sequence of words, including user-defined vocabulary."""
     return format_phrase(m)
@@ -139,7 +139,7 @@ def text(m) -> str:
         "| <user.prose_modifier>"
         "| <user.abbreviation>"
         "| <user.prose_contact>"
-        "| <phrase>"
+        "| <user.talon_phrase>"
         ")+"
     )
 )
@@ -161,7 +161,7 @@ def prose(m) -> str:
         "| <user.prose_percent>"
         "| <user.abbreviation>"
         "| <user.prose_contact>"
-        "| <phrase>"
+        "| <user.talon_phrase>"
         ")+"
     )
 )
@@ -171,7 +171,7 @@ def raw_prose(m) -> str:
 
 
 # For dragon, omit support for abbreviations and contacts
-@ctx_dragon.capture("user.text", rule="({user.vocabulary} | <phrase>)+")
+@ctx_dragon.capture("user.text", rule="({user.vocabulary} | <user.talon_phrase>)+")
 def text_dragon(m) -> str:
     """A sequence of words, including user-defined vocabulary."""
     return format_phrase(m)
@@ -179,7 +179,7 @@ def text_dragon(m) -> str:
 
 @ctx_dragon.capture(
     "user.prose",
-    rule="(<phrase> | {user.vocabulary} | {user.punctuation} | {user.prose_snippets} | <user.prose_currency> | <user.prose_time> | <user.prose_number> | <user.prose_percent> | <user.prose_modifier>)+",
+    rule="(<user.talon_phrase> | {user.vocabulary} | {user.punctuation} | {user.prose_snippets} | <user.prose_currency> | <user.prose_time> | <user.prose_number> | <user.prose_percent> | <user.prose_modifier>)+",
 )
 def prose_dragon(m) -> str:
     """Mixed words and punctuation, auto-spaced & capitalized."""
@@ -189,11 +189,20 @@ def prose_dragon(m) -> str:
 
 @ctx_dragon.capture(
     "user.raw_prose",
-    rule="(<phrase> | {user.vocabulary} | {user.punctuation} | {user.prose_snippets} | <user.prose_currency> | <user.prose_time> | <user.prose_number> | <user.prose_percent>)+",
+    rule="(<user.talon_phrase> | {user.vocabulary} | {user.punctuation} | {user.prose_snippets} | <user.prose_currency> | <user.prose_time> | <user.prose_number> | <user.prose_percent>)+",
 )
 def raw_prose_dragon(m) -> str:
     """Mixed words and punctuation, auto-spaced & capitalized, without quote straightening and commands (for use in dictation mode)."""
     return apply_formatting(m)
+
+@mod.capture(rule='<phrase>')
+def talon_phrase(m) -> grammar.Phrase:
+    return m.phrase
+
+
+@mod.capture(rule='<word>')
+def talon_word(m) -> grammar.Phrase:
+    return m.word
 
 
 # ---------- FORMATTING ---------- #
