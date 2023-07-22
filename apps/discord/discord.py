@@ -83,3 +83,10 @@ class UserActions:
     # Navigation: Channels
     def messaging_open_channel_picker():
         actions.user.discord_quick_switcher("#", "")
+
+
+@ctx.action_class("edit")
+class EditActions:
+    def line_insert_down():
+        actions.edit.line_end()
+        actions.key("shift-enter")
